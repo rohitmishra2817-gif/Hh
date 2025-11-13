@@ -1,364 +1,183 @@
 <!doctype html>
-
 <html lang="hi">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>FAKE WIFE — 500 Episode Story (Hindi) — Narrator</title>
-  <style>
-    :root{ --bg:#0f1724; --card:#111827; --text:#e6eef8; --accent:#ff6b6b }
-    body{font-family:system-ui,Segoe UI,Roboto,Arial; background:linear-gradient(180deg,#071022, #0b1220); color:var(--text); margin:0; padding:24px}
-    header{display:flex;gap:12px;align-items:center}
-    h1{margin:0;font-size:20px}
-    .controls{margin-top:12px;display:flex;gap:8px;flex-wrap:wrap}
-    button{background:var(--accent);border:0;padding:10px 14px;border-radius:10px;color:#111;font-weight:700;cursor:pointer}
-    .secondary{background:#2b3a52;color:var(--text)}
-    .container{margin-top:18px}
-    .episode{background:rgba(255,255,255,0.03);padding:14px;border-radius:10px;margin-bottom:10px}
-    .title{font-weight:800;margin-bottom:6px}
-    .summary{line-height:1.45}
-    .search{width:100%;padding:8px;border-radius:8px;border:0;margin-bottom:12px}
-    details{background:rgba(255,255,255,0.02);padding:10px;border-radius:8px}
-    footer{margin-top:18px;font-size:13px;color:#bcd0ee}
-    .badge{background:#112233;padding:6px 8px;border-radius:8px}
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>हिंदी IQ टेस्ट</title>
+<style>
+  body {
+    background: #000;
+    color: #ffd166;
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    text-align: center;
+    overflow: hidden;
+  }
+  h1 {
+    font-size: 2.5rem;
+    color: #ffb703;
+    margin-bottom: 1rem;
+  }
+  #question {
+    font-size: 2rem;
+    margin: 20px;
+    padding: 25px 30px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
+  }
+  #answer {
+    font-size: 1.8rem;
+    margin-top: 20px;
+    color: #00ff88;
+  }
+  #thinkingTimer, #timerCircle {
+    margin-top: 30px;
+    font-size: 1.5rem;
+    color: #ff4444;
+  }
+  #timerCircle {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 6px solid rgba(255, 215, 0, 0.3);
+    display: none;
+    align-items: center;
+    justify-content: center;
+  }
+  #circle {
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 6px solid gold;
+    clip-path: polygon(50% 50%, 50% 0, 100% 0, 100% 100%, 0 100%, 0 0, 50% 0);
+    transform: rotate(-90deg);
+    transform-origin: center;
+  }
+  #timeText {
+    position: absolute;
+    font-size: 2rem;
+    color: #fff;
+  }
+  button {
+    background: #ffb703;
+    color: #000;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 10px;
+    font-size: 1.3rem;
+    cursor: pointer;
+    margin-top: 30px;
+  }
+  button:hover {
+    background: #ffd166;
+  }
+</style>
 </head>
 <body>
-  <header>
-    <div>
-      <h1>FAKE WIFE — 500 Episode Story (Hindi)</h1>
-      <div style="font-size:13px;color:#bcd0ee;margin-top:6px">Contains episode summaries and an in-browser narrator (Hindi — male & female voice where available).</div>
-    </div>
-  </header>  <div class="controls">
-    <button id="playMale">Narrate All — Mard Ki Awaaz</button>
-    <button id="playFemale">Narrate All — Aurat Ki Awaaz</button>
-    <button id="playSelected" class="secondary">Narrate Selected (Textbox)</button>
-    <input id="episodeSearch" class="search" placeholder="Search episode number or text (e.g., 'Episode 12' ya 'Rohit')">
-  </div>  <div class="container">
-    <!-- EPISODES: Detailed 1-30, Summaries 31-500 (one-line hooks) --><!-- Detailed Episodes 1-30 -->
-<section id="episodes">
-  <div class="episode" data-ep="1">
-    <div class="title">Episode 1 — Shaadi Ka Drama</div>
-    <div class="summary">Arjun, ek middle-class IT engineer, boss ki party mein jhoot bol deta hai ke uski shaadi ho chuki hai. Boss 'wife' se milna chahta hai; majboori mein Arjun ek unknown ladki Riya ko ek din ke liye fake wife banane ke liye convince karta hai. Party mein dono ki acting perfect lagti hai aur sab sach maan lete hain. Episode khatam hota hai jab Riya ko pehli baar Arjun ke ghar walon se milna padta hai.</div>
+  <h1>हिंदी IQ टेस्ट</h1>
+  <div id="question">प्रारंभ करने के लिए नीचे क्लिक करें</div>
+  <div id="thinkingTimer"></div>
+  <div id="answer"></div>
+  <div id="timerCircle">
+    <div id="circle"></div>
+    <div id="timeText">10</div>
   </div>
+  <button id="startBtn">Start</button>
 
-  <div class="episode" data-ep="2">
-    <div class="title">Episode 2 — Ek Raat Ka Contract</div>
-    <div class="summary">Riya paiso ke liye fake wife banne ko ready hoti hai. Boss unhe honeymoon trip gift karta hai, jisse sabko aur yaqeen ho jata hai. Trip ke dauran chhoti-chhoti jhalakiyan dikhne lagti hain — dono ke beech ajeeb si chemistry. Lekin Riya ka ek raaz phone mein chhupa hua hai.</div>
-  </div>
+<script>
+const qaList = [
+  {q:"अगर 2 बिल्ली 2 चूहे 2 मिनट में पकड़ती हैं, तो 100 बिल्ली 100 चूहे कितने मिनट में पकड़ेंगी?",a:"2 मिनट"},
+  {q:"एक आदमी के 3 बेटे हैं। हर बेटे की 1 बहन है। कुल कितने बच्चे हैं?",a:"4 बच्चे"},
+  {q:"अगर कल गुरुवार था, तो कल के बाद कौन सा दिन होगा?",a:"शनिवार"},
+  {q:"10, 20, 30, 40, ___?",a:"50"},
+  {q:"अगर ट्रेन 80 km/h की रफ्तार से 1 घंटे में 80 km चलती है, तो 2.5 घंटे में कितनी दूरी तय करेगी?",a:"200 km"},
+];
 
-  <div class="episode" data-ep="3">
-    <div class="title">Episode 3 — Dil Ki Baat</div>
-    <div class="summary">Honeymoon trip ke chote palon mein Arjun ko ehsaas hota hai ki shayad yeh acting zyada gehri hai. Riya apne aap ko zyada khulkar behave nahi karti; uski nazar har waqt kisi dar se bhari rehti hai. Ek raat Arjun Riya se seedhi baat karne ki koshish karta hai, par Riya chup reh jaati hai.</div>
-  </div>
+let index = 0;
+let tickAudio = new Audio('https://actions.google.com/sounds/v1/alarms/clock_ticking.ogg');
+tickAudio.loop = true;
 
-  <div class="episode" data-ep="4">
-    <div class="title">Episode 4 — Past Ka Raaz</div>
-    <div class="summary">Riya ka ex-lover Rohit ki entry hoti hai jo use blackmail kar raha hota hai. Rohit ke pass Riya ke kuch aise saboot hote hain jisse uska poora jeevan khatre mein pad sakta hai. Arjun jab sach janne ki koshish karta hai to Riya aur door ho jaati hai. Family mein bhi pehli baar tanav shuru hota hai.</div>
-  </div>
+function startQuiz() {
+  document.getElementById('startBtn').style.display = 'none';
+  showQuestion();
+}
 
-  <div class="episode" data-ep="5">
-    <div class="title">Episode 5 — Pyar Ya Drama</div>
-    <div class="summary">Fake relationship emotional war ban jata hai. Arjun Riya ko Rohit se bachata hai; dono ke beech ek emotional moment hota hai. Par Riya ab bhi apni purani zindagi chhupati hai. Audience aasha karta hai ki sach bahar aa jayega.</div>
-  </div>
+function showQuestion() {
+  if (index >= qaList.length) {
+    document.getElementById('question').innerText = 'टेस्ट पूरा हुआ! 🎉';
+    document.getElementById('thinkingTimer').innerText = '';
+    document.getElementById('answer').innerText = '';
+    document.getElementById('timerCircle').style.display = 'none';
+    return;
+  }
 
-  <div class="episode" data-ep="6">
-    <div class="title">Episode 6 — Office Me Hungama</div>
-    <div class="summary">Arjun aur Riya ko office se 'Perfect Couple Award' milta hai aur unki photo viral ho jati hai. Social media par troll bhi aate hain. Riya ko sabke saamne apne role ko nibhane mein mushkil hoti hai; uska dil sach bolta hai. Arjun ka promotion bhi atka padta hai jab boss ko asli baat ka aasaar dikhne lagta hai.</div>
-  </div>
+  document.getElementById('answer').innerText = '';
+  document.getElementById('timerCircle').style.display = 'none';
 
-  <div class="episode" data-ep="7">
-    <div class="title">Episode 7 — Blackmail Ka Khel</div>
-    <div class="summary">Rohit Riya ke kuch purane videos lekar blackmail karta hai. Arjun ke liye sab kuch ulta padta hai — uske career aur izzat dono pe sawal uthte hain. Par Arjun Riya ka saath chhodta nahi; dono milkar Rohit ka saamna karne ka plan banate hain.</div>
-  </div>
+  document.getElementById('question').innerText = qaList[index].q;
 
-  <div class="episode" data-ep="8">
-    <div class="title">Episode 8 — Real Love</div>
-    <div class="summary">Acting se zyada, dono ka rista gehra hota hai. Riya apni guilt confess karti hai aur bataati hai ki kaise uska past usse khinch raha tha. Arjun ka parivaar unse shaadi ke certificate maangta hai; ab jhoot bada banane ki zorurat padti hai.</div>
-  </div>
-
-  <div class="episode" data-ep="9">
-    <div class="title">Episode 9 — Sach Ka Dhamaka</div>
-    <div class="summary">Rohit sabko sach bata deta hai ke ye shaadi fake thi. Arjun ka boss gussa hota hai; job khatre mein padti hai. Arjun tab bhi Riya ke saath khada rehta hai. Par ek naya khatra nikalta hai: Arjun ka cousin Kabir, jise Riya ka behaviour pasand aa gaya tha, problem create karta hai.</div>
-  </div>
-
-  <div class="episode" data-ep="10">
-    <div class="title">Episode 10 — Nayi Shuruaat</div>
-    <div class="summary">Arjun propose karta hai: "Ab fake nahi, real wife bano." Riya ro padti hai aur haan keh deti hai. Par Kabir (Arjun ka cousin) silent observer rehta hai aur uski chuppi aage chal kar bada twist banne wali hai.</div>
-  </div>
-
-  <div class="episode" data-ep="11">
-    <div class="title">Episode 11 — Shaadi Ka Saboot</div>
-    <div class="summary">Arjun aur Riya official documents taiyar karte hain. Par Kabir secretely documents ko manipulate karta hai taaki Arjun par shaq ho. Riya ke past se judi ek aur aurat ka zikr hota hai jo Rohit ki saathi thi.</div>
-  </div>
-
-  <div class="episode" data-ep="12">
-    <div class="title">Episode 12 — Parivaar Ka Jazba</div>
-    <div class="summary">Arjun ki maa Riya par bharosa karne ki koshish karti hai par dadi ko kuch shak rehta hai. Riya apna past reveal karne ka plan banati hai lekin Rohit se dar lagta hai. Ek choti si party mein kahani aur tangled ho jati hai.</div>
-  </div>
-
-  <div class="episode" data-ep="13">
-    <div class="title">Episode 13 — Kabir Ka Iraada</div>
-    <div class="summary">Kabir Arjun ka promotion rokne ke liye kuch evidence plant karta hai. Riya is chori ko pakad leti hai, par isse Kabir aur zyada badal jaata hai. Kabir ka motive reveal hota hai: family property aur jealousy.</div>
-  </div>
-
-  <div class="episode" data-ep="14">
-    <div class="title">Episode 14 — Riya Ki Sacchai</div>
-    <div class="summary">Riya apne past ka ek bada hissa kholti hai: uski ek behen thi jo ek tragic incident mein gayi thi. Yeh sach Arjun ko hila deta hai. Rohit ki asli wajah samne aati hai — uska connection kisi political aadmi se hai.</div>
-  </div>
-
-  <div class="episode" data-ep="15">
-    <div class="title">Episode 15 — Public Scandal</div>
-    <div class="summary">Rohit Riya aur Arjun ki fake honeymoon ki tasveer social media par spread kar deta hai with malicious captions. Public opinion ulta hota hai; Arjun ki company me PR crisis. Dono milkar damage control karte hain.</div>
-  </div>
-
-  <div class="episode" data-ep="16">
-    <div class="title">Episode 16 — Dosti Ya Dhoka</div>
-    <div class="summary">Arjun ka ek puraana dost, Sameer, jo ab ek journalist hai, kuch hints dhoondta hai. Sameer Riya ki madad karta hai par khud bhi ek aise secret se jujh raha hota hai jo future me problem ban sakta hai.</div>
-  </div>
-
-  <div class="episode" data-ep="17">
-    <div class="title">Episode 17 — Ghar Ki Ladai</div>
-    <div class="summary">Kabir ne Arjun ke ghar me tension create kar di; dadi Riya ko ghar se nikalne ko kehti hai. Arjun dono taraf se phasa hua mehsoos karta hai. Riya ek chhota sa plan banati hai taaki Kabir expose ho jaye.</div>
-  </div>
-
-  <div class="episode" data-ep="18">
-    <div class="title">Episode 18 — Ek Nayi Dosti</div>
-    <div class="summary">Riya ka ek naya sahara milta hai — Meera, jo ek counselor hai, Riya ko support karti hai. Meera ke through Riya apne past trauma se ladna shuru karti hai. Rohit ki chaal aur complex hoti jaati hai.</div>
-  </div>
-
-  <div class="episode" data-ep="19">
-    <div class="title">Episode 19 — Khoj</div>
-    <div class="summary">Sameer aur Arjun milkar Rohit ki background investigate karte hain. Unhe pata chalta hai ki Rohit ek chhoti criminal gang ka hissa hai. Kabir ke motives aur bhi dark nazar aate hain — uski financial greed reveal hoti hai.</div>
-  </div>
-
-  <div class="episode" data-ep="20">
-    <div class="title">Episode 20 — Ek Plan</div>
-    <div class="summary">Riya aur Arjun Rohit ko phasane ka plan banate hain. Meera, Sameer aur Arjun ki maa is plan me madad karte hain. Par plan me ek unexpected leak hota hai aur Rohit bhag nikalta hai, lekin ek aur anzar (villain) ka pata chalta hai.</div>
-  </div>
-
-  <div class="episode" data-ep="21">
-    <div class="title">Episode 21 — Trust Test</div>
-    <div class="summary">Arjun ko company me ek bada assignment milta hai jisme uska integrity test hota hai. Kabir ek aur kadam aage badhkar Riya ke khilaaf evidence plant karta hai. Riya aur Arjun ke beech trust test intensify hota hai.</div>
-  </div>
-
-  <div class="episode" data-ep="22">
-    <div class="title">Episode 22 — Aankh Micholi</div>
-    <div class="summary">Riya Rohit ko dhundhne ke liye alag tarike apnati hai; kabhi disguise, kabhi sneaking. Arjun company ki pressure se jhel raha hota hai. Meera Riya ko emotionally strong banati hai.</div>
-  </div>
-
-  <div class="episode" data-ep="23">
-    <div class="title">Episode 23 — Dil Ka Faisla</div>
-    <div class="summary">Arjun ek moment me decide karta hai ki wo Riya ke sath sacchai ke liye ladhega. Uski job risk me padti hai lekin usne apne decisions ki zimmedari le li. Family ke kuch members bhi gradually sympathetic ho jate hain.</div>
-  </div>
-
-  <div class="episode" data-ep="24">
-    <div class="title">Episode 24 — Purane Dukh</div>
-    <div class="summary">Riya apni behen se judi ek diary dhundti hai jisme kuch important clues hote hain. Diary se pata chalta hai ki Riya ka past kisi bade political scandal se juda hai. Ab kahani national-level complexity lene lagti hai.</div>
-  </div>
-
-  <div class="episode" data-ep="25">
-    <div class="title">Episode 25 — Media Ka Daur</div>
-    <div class="summary">Sameer kuch exclusive clues publish karta hai. Media attention milta hai lekin saath me pressure bhi. Rohit ki gang aur zyada aggressive ho jati hai; Kabir apni nastiness ko aur expose karta hai.</div>
-  </div>
-
-  <div class="episode" data-ep="26">
-    <div class="title">Episode 26 — Raat Ka Sangharsh</div>
-    <div class="summary">Riya ek raat Rohit ke hideout me chali jaati hai taaki usse evidence mile. Action sequence hota hai jisme Riya barely bachi. Arjun ko pata chalta hai aur wo guilty feel karta hai kyunki usne Riya ko itna risk liya diya tha.</div>
-  </div>
-
-  <div class="episode" data-ep="27">
-    <div class="title">Episode 27 — Court Ka Chakkar</div>
-    <div class="summary">Riya aur Arjun ko court me bulaya jata hai jab Rohit ek false FIR file kar deta hai. Legal drama shuru hota hai; Sameer aur Meera key witness bante hain. Arjun ka career aur reputation dono pe sawal khade ho jate hain.</div>
-  </div>
-
-  <div class="episode" data-ep="28">
-    <div class="title">Episode 28 — Sacchai Ka Kshana</div>
-    <div class="summary">Court ke beech me ek chota sa witness sach bol deta hai jisse Rohit ki credibility girti hai. Lekin is revelation se naya conspiracy samne aata hai — kisi aur ne Rohit ko use kiya tha. Kabir ke kuch aur hidden moves reveal hote hain.</div>
-  </div>
-
-  <div class="episode" data-ep="29">
-    <div class="title">Episode 29 — Nayi Dushmani</div>
-    <div class="summary">Jo aadmi Rohit ko control kar raha tha, uska profile milta hai: ek local politician. Ab kahani me political danger add hota hai. Arjun aur Riya ko apni safety ke baare me sochna padta hai.</div>
-  </div>
-
-  <div class="episode" data-ep="30">
-    <div class="title">Episode 30 — Ek Naya Mor</div>
-    <div class="summary">Arjun Riya aur team ek naya plan banate hain taaki politician ke khilaf evidence jam ho. Par is mission ke dauran Meera kidnap ho jaati hai — stakes aur bhi badh jaate hain. Season 1 ke end par ek bade cliffhanger ka promise hota hai.</div>
-  </div>
-
-  <!-- Summaries for Episodes 31-500: one-line hooks to keep the structure compact. User can ask for expansion. -->
-
-  <details>
-    <summary style="font-weight:800;margin-bottom:8px">Episodes 31–500 (One-line hooks). Click to expand.</summary>
-    <div style="margin-top:10px">
-      <!-- We'll list 31-500 as one-line hooks grouped by 10 per paragraph for readability -->
-
-      <div class="episode" data-ep="31"><div class="title">Episode 31</div><div class="summary">Rescue mission shuru — Meera ko dhoonda jaata hai, naye clues milte hain.</div></div>
-      <div class="episode" data-ep="32"><div class="title">Episode 32</div><div class="summary">Politician ka haath khula — ek corrupt network ka pata chalta hai.</div></div>
-      <div class="episode" data-ep="33"><div class="title">Episode 33</div><div class="summary">Kabir aur politician ki chori ka evidence milta hai.</div></div>
-      <div class="episode" data-ep="34"><div class="title">Episode 34</div><div class="summary">Family internal betrayal aur Kabir ka blackmail escalate hota hai.</div></div>
-      <div class="episode" data-ep="35"><div class="title">Episode 35</div><div class="summary">Riya ek purane dost se milti hai jo key witness ban sakta hai.</div></div>
-      <div class="episode" data-ep="36"><div class="title">Episode 36</div><div class="summary">Arjun ki job pe fir attack — promotion cancel hone ka khatra.</div></div>
-      <div class="episode" data-ep="37"><div class="title">Episode 37</div><div class="summary">Sameer ko dhamkiyan milti hain; media campaign tez hota hai.</div></div>
-      <div class="episode" data-ep="38"><div class="title">Episode 38</div><div class="summary">Riya ki behen se judi ek aur sachchai saamne aati hai.</div></div>
-      <div class="episode" data-ep="39"><div class="title">Episode 39</div><div class="summary">Police investigation me corruption — truth ko cover karna chahte hain.</div></div>
-      <div class="episode" data-ep="40"><div class="title">Episode 40</div><div class="summary">Riya aur Arjun ke beech ek misunderstanding badi ladai me badalti hai.</div></div>
-
-      <!-- We'll continue listing succinct hooks up to 500. To keep file manageable, these are concise. -->
-
-      <!-- 41-100 (sample hooks) -->
-      <div class="episode" data-ep="41"><div class="title">Episode 41</div><div class="summary">Arjun ka purana rival show me aata hai; competition aur rivalry.</div></div>
-      <div class="episode" data-ep="42"><div class="title">Episode 42</div><div class="summary">Kabir ek nayi alliance banata hai with politician.</div></div>
-      <div class="episode" data-ep="43"><div class="title">Episode 43</div><div class="summary">Riya secret mission — undercover jaati hai politician ke event me.</div></div>
-      <div class="episode" data-ep="44"><div class="title">Episode 44</div><div class="summary">Meera safe milti hai par witness ka testimony missing hai.</div></div>
-      <div class="episode" data-ep="45"><div class="title">Episode 45</div><div class="summary">Arjun ka career rebound — ek mentor uski madad karta hai.</div></div>
-      <div class="episode" data-ep="46"><div class="title">Episode 46</div><div class="summary">Riya ki family me koi naya member aata hai jo secret rakhta hai.</div></div>
-      <div class="episode" data-ep="47"><div class="title">Episode 47</div><div class="summary">Kabir aur politician me trust break — game aur complex hota hai.</div></div>
-      <div class="episode" data-ep="48"><div class="title">Episode 48</div><div class="summary">Public apology sequence — Arjun aur Riya ko image repair karna padta hai.</div></div>
-      <div class="episode" data-ep="49"><div class="title">Episode 49</div><div class="summary">Rohit ka secret partner reveal hota hai — ek surprising face.</div></div>
-      <div class="episode" data-ep="50"><div class="title">Episode 50</div><div class="summary">Mid-season twist — Kabir ka betrayal sabke saamne aata hai.</div></div>
-
-      <!-- 51-500 summarized as single-line hooks to indicate arc progression. User can request expansions. -->
-      <!-- For brevity, we show examples and then programmatically represent the rest. -->
-
-      <!-- We'll include condensed placeholders for episodes 51-500 -->
-
-      <p style="margin-top:12px;font-weight:700">Episodes 51–500: (Har episode ek-line hook — structure continues: escalation → confrontation → revelations → revenge → redemption → climax → resolution)</p>
-      <div style="font-size:13px;line-height:1.6">
-        <!-- generate simple progressive hooks -->
-        <!-- We'll list a condensed sequence for 51-500. For brevity in the HTML we include blocks of 10 per paragraph. -->
-
-        <!-- 51-60 -->
-        <div><strong>51–60:</strong> Concealed evidence surfaces; Kabir's power grows; Riya fights back with legal and emotional tactics; Arjun faces a career rupture; new romantic tension; a fake ally betrays them.</div>
-        <!-- 61-70 -->
-        <div><strong>61–70:</strong> Political scandal widens; media trials; Meera recovers and becomes a public voice; Rohit's network weakens; family divides deepen; Arjun contemplates leaving the city.</div>
-        <!-- 71-80 -->
-        <div><strong>71–80:</strong> Riya returns stronger; undercover sting operation planned; Kabir's violent act shocks the family; Arjun's father reveals a secret from his past; loyalty tested.</div>
-        <!-- 81-90 -->
-        <div><strong>81–90:</strong> Courtroom battles escalate; an unexpected ally appears in the form of a retired judge; small-town politics clash with city power; Riya's sister's true death cause revealed.</div>
-        <!-- 91-100 -->
-        <div><strong>91–100:</strong> Major revelation: a powerful figure was pulling strings; Arjun loses trust in some family members; romance and reconciliation moments; a public showdown planned.</div>
-
-        <!-- 101-200 -->
-        <div style="margin-top:8px"><strong>101–200:</strong> A long chain of sabotage and revenge unfolds — several side-characters get full arcs (redemption, betrayal, love stories). Riya and Arjun's relationship is tested by misunderstandings, career temptations, and family obligations. New villains emerge, some old ones repent. Multiple cliffhangers keep viewers hooked: kidnappings, false deaths, secret babies, surprising inheritances, and dramatic courtroom verdicts.</div>
-
-        <!-- 201-300 -->
-        <div style="margin-top:8px"><strong>201–300:</strong> The middle season becomes grind-heavy with multiple mini-arcs: Arjun's corporate war, Riya's social activism against corruption, Kabir's descent, Rohit's final retaliation, and a love-triangle detour introducing a new female lead who challenges Riya. Several episodes dedicated to festivals, weddings, and emotional reunions balance the darker elements.</div>
-
-        <!-- 301-400 -->
-        <div style="margin-top:8px"><strong>301–400:</strong> The pace accelerates toward climax: evidence collects, political players fall, Kabir faces legal consequences, Rohit's gang collapses, and a shocking martyr event for a beloved side character galvanizes public support. Flashbacks reveal key hidden motives, turning villains into tragic figures and allies into unexpected foes.</div>
-
-        <!-- 401-500 -->
-        <div style="margin-top:8px"><strong>401–500:</strong> Final arc: courtroom battles, public exposure of the main antagonist, personal sacrifices, a great reconciliation episode, followed by Redemption episodes where characters rebuild lives. The finale (Episode 500) is a two-part epic: truth out, justice delivered, Arjun and Riya fully accepted by family and society — but with bittersweet consequences (loss, lessons, hope). The last scenes show the couple starting a foundation in memory of those who suffered.</div>
-
-      </div>
-
-    </div>
-  </details>
-
-</section>
-
-<footer>
-  <div class="badge">How to use narrator:</div>
-  <div style="margin-top:6px">1) Click <strong>"Narrate All — Mard Ki Awaaz"</strong> to have the page read the whole story in a typically deeper male voice (browser dependent).<br>
-  2) Click <strong>"Narrate All — Aurat Ki Awaaz"</strong> for a female-sounding voice. <br>
-  3) Use the search box to find episodes; click any episode to copy text for manual narration. <br>
-  Note: Web Speech API voice availability depends on the user's browser and OS. For best results use Chrome desktop or recent mobile browsers that support speechSynthesis and hi-IN voices.</div>
-</footer>
-
-  </div>  <script>
-    // Simple narrator using Web Speech API (Hindi). Selects a voice matching male/female hints when possible.
-    function getVoiceByGenderHint(hint){
-      const voices = speechSynthesis.getVoices();
-      if(!voices || voices.length===0) return null;
-      // Prefer hi-IN or hi voices
-      let candidates = voices.filter(v=>/hi|hindi/i.test(v.lang) || /hi-|hi_/.test(v.lang));
-      if(candidates.length===0) candidates = voices; // fallback
-      // Try to pick by name hint (male/female)
-      const femaleHints = ['female','woman','female','venezuela','zira','kanya','ayan'];
-      const maleHints = ['male','man','male','hindu','deep','male'];
-      const list = hint==='female' ? femaleHints : maleHints;
-      for(const v of candidates){
-        const name = v.name.toLowerCase();
-        for(const h of list) if(name.includes(h)) return v;
-      }
-      // fallback to first candidate
-      return candidates[0];
+  // Thinking timer (30 seconds)
+  let thinkTime = 30;
+  document.getElementById('thinkingTimer').innerText = `सोचने का समय: ${thinkTime} सेकंड`;
+  let thinkInterval = setInterval(() => {
+    thinkTime--;
+    document.getElementById('thinkingTimer').innerText = `सोचने का समय: ${thinkTime} सेकंड`;
+    if (thinkTime <= 0) {
+      clearInterval(thinkInterval);
+      showAnswer();
     }
+  }, 1000);
+}
 
-    function gatherAllText(){
-      const nodes = document.querySelectorAll('#episodes .episode');
-      let text = '';
-      nodes.forEach(n=>{
-        const ep = n.getAttribute('data-ep') || '';
-        const title = n.querySelector('.title')?.innerText || '';
-        const summ = n.querySelector('.summary')?.innerText || '';
-        text += `Episode ${ep} — ${title}. ${summ}\. `;
-      });
-      return text;
+function showAnswer() {
+  document.getElementById('thinkingTimer').innerText = '';
+  document.getElementById('answer').innerHTML = `<strong>आपका जवाब ये रहा:</strong> ${qaList[index].a}`;
+  const utter = new SpeechSynthesisUtterance(`आपका जवाब ये रहा: ${qaList[index].a}`);
+  utter.lang = 'hi-IN';
+  speechSynthesis.speak(utter);
+
+  // Answer wait 5 seconds
+  setTimeout(() => {
+    startCircularTimer();
+  }, 5000);
+}
+
+function startCircularTimer() {
+  const circle = document.getElementById('circle');
+  const timeText = document.getElementById('timeText');
+  const timerDiv = document.getElementById('timerCircle');
+  timerDiv.style.display = 'flex';
+  tickAudio.play();
+
+  let timeLeft = 10;
+  let deg = 0;
+  timeText.textContent = timeLeft;
+
+  const circleInterval = setInterval(() => {
+    timeLeft--;
+    deg += 36;
+    circle.style.transform = `rotate(${deg - 90}deg)`;
+    timeText.textContent = timeLeft;
+
+    if (timeLeft <= 0) {
+      clearInterval(circleInterval);
+      tickAudio.pause();
+      timerDiv.style.display = 'none';
+      index++;
+      showQuestion();
     }
+  }, 1000);
+}
 
-    function speakAll(gender){
-      if(!('speechSynthesis' in window)){ alert('Your browser does not support speechSynthesis. Use Chrome or Edge.'); return; }
-      const utter = new SpeechSynthesisUtterance();
-      utter.lang = 'hi-IN';
-      const voice = getVoiceByGenderHint(gender);
-      if(voice) utter.voice = voice;
-      utter.rate = 1; utter.pitch = gender==='female'?1.05:0.95;
-      utter.text = gatherAllText();
-      // break large text into chunks to avoid browser limits
-      const chunkSize = 6000; // conservative
-      const chunks = [];
-      for(let i=0;i<utter.text.length;i+=chunkSize) chunks.push(utter.text.slice(i,i+chunkSize));
-
-      // sequentially speak chunks
-      let idx=0;
-      function speakChunk(){
-        if(idx>=chunks.length) return;
-        const u = new SpeechSynthesisUtterance(chunks[idx]);
-        u.lang = 'hi-IN';
-        if(voice) u.voice = voice;
-        u.rate = 1; u.pitch = gender==='female'?1.05:0.95;
-        u.onend = ()=>{ idx++; speakChunk(); };
-        speechSynthesis.speak(u);
-      }
-      speechSynthesis.cancel();
-      speakChunk();
-    }
-
-    // Play selected textbox (for small excerpts)
-    document.getElementById('playMale').addEventListener('click', ()=>{ speakAll('male'); });
-    document.getElementById('playFemale').addEventListener('click', ()=>{ speakAll('female'); });
-    document.getElementById('playSelected').addEventListener('click', ()=>{
-      const txt = prompt('Paste the text you want narrated (up to a few paragraphs):');
-      if(!txt) return;
-      if(!('speechSynthesis' in window)){ alert('Speech not supported'); return; }
-      const u = new SpeechSynthesisUtterance(txt);
-      u.lang = 'hi-IN';
-      const voice = getVoiceByGenderHint('female'); if(voice) u.voice = voice;
-      speechSynthesis.cancel(); speechSynthesis.speak(u);
-    });
-
-    // search box: scroll to first matching episode
-    document.getElementById('episodeSearch').addEventListener('input', function(){
-      const q = this.value.trim().toLowerCase();
-      if(!q) return;
-      const nodes = document.querySelectorAll('#episodes .episode');
-      for(const n of nodes){
-        const text = (n.innerText||'').toLowerCase();
-        if(text.includes(q)){
-          n.scrollIntoView({behavior:'smooth',block:'center'});
-          n.style.outline = '2px solid rgba(255,107,107,0.4)';
-          setTimeout(()=>n.style.outline='none',2500);
-          break;
-        }
-      }
-    });
-
-    // ensure voices populated
-    if (typeof speechSynthesis !== 'undefined') {
-      speechSynthesis.onvoiceschanged = function(){ /* ready */ };
-    }
-  </script></body>
+document.getElementById('startBtn').addEventListener('click', startQuiz);
+</script>
+</body>
 </html>
