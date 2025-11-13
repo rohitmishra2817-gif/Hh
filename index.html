@@ -1,293 +1,252 @@
 <!doctype html>
-
 <html lang="hi">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>हिंदी IQ टेस्ट — Dark Premium</title>
+<title>हिंदी IQ टेस्ट — Continuous Auto Loop</title>
 <style>
-  body {
-    background: radial-gradient(ellipse at center, #040404 0%, #000000 60%);
-    color: #ffd166;
-    font-family: 'Poppins', sans-serif;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    margin: 0;
-    text-align: center;
-    overflow: hidden;
+  :root{
+    --bg1:#040404; --bg2:#070707; --gold1:#ffd18a; --gold2:#ffb86b; --muted:#cbd5e1;
   }
-  h1 {
-    font-size: 2.2rem;
-    color: #ffb703;
-    margin-bottom: 0.6rem;
-    text-shadow: 0 6px 24px rgba(255,183,3,0.08);
-  }
-  #question {
-    font-size: 1.9rem;
-    margin: 18px;
-    padding: 28px 34px;
-    border-radius: 18px;
-    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-    box-shadow: 0 8px 40px rgba(255,215,0,0.06);
-    max-width: 88%;
-    color: #fff6df;
-    font-weight: 600;
-    line-height: 1.3;
-  }
-  #answer {
-    font-size: 1.6rem;
-    margin-top: 20px;
-    color: #bff5c6;
-    min-height: 48px;
-  }
-  #thinkingTimer, #timerCircle {
-    margin-top: 24px;
-    font-size: 1.25rem;
-    color: #ffdd99;
-  }
-  #timerCircle {
-    position: relative;
-    width: 170px;
-    height: 170px;
-    border-radius: 50%;
-    border: 6px solid rgba(255, 215, 0, 0.12);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    margin-top: 18px;
-  }
-  #circle {
-    position: absolute;
-    width: 170px;
-    height: 170px;
-    border-radius: 50%;
-    border: 8px solid rgba(255,200,80,0.12);
-    box-shadow: 0 8px 40px rgba(255,183,3,0.06);
-    transform: rotate(-90deg);
-    transform-origin: center;
-    transition: transform 0.9s linear;
-  }
-  #timeText {
-    position: absolute;
-    font-size: 2.2rem;
-    color: #fff;
-    font-weight: 700;
-    text-shadow: 0 6px 18px rgba(0,0,0,0.6);
-  }
-  button {
-    background: linear-gradient(90deg,#ffb703,#ffd166);
-    color: #06121a;
-    border: none;
-    padding: 12px 26px;
-    border-radius: 12px;
-    font-size: 1.15rem;
-    cursor: pointer;
-    margin-top: 28px;
-    box-shadow: 0 8px 30px rgba(255,183,3,0.08);
-  }
-  button:hover { transform: translateY(-3px); }
-  @media (max-width:600px){
-    #question{font-size:1.4rem;padding:20px}
-    #timeText{font-size:1.8rem}
-  }
+  html,body{height:100%;margin:0;background:radial-gradient(circle at 20% 10%, #071022 0%, #000 60%);font-family:Inter, Poppins, system-ui; color:#fff; -webkit-font-smoothing:antialiased;}
+  .wrap{height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;box-sizing:border-box;}
+  h1{margin:0 0 8px 0;font-size:28px;color:var(--gold1);text-shadow:0 8px 30px rgba(0,0,0,0.6);}
+  .card{width:100%;max-width:980px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:16px;padding:28px;box-shadow:0 20px 60px rgba(0,0,0,0.6);text-align:center;}
+  #question{font-size:26px;line-height:1.25;color:#fff6df;font-weight:600;padding:28px;border-radius:12px;min-height:120px;display:flex;align-items:center;justify-content:center;}
+  #thinkingTimer{margin-top:18px;font-size:18px;color:#ffdca3;font-weight:700;}
+  #answer{margin-top:18px;font-size:22px;color:#aef5b3;min-height:56px;font-weight:700;}
+  .controls{margin-top:22px;display:flex;gap:12px;align-items:center;justify-content:center;}
+  button{background:linear-gradient(90deg,var(--gold2),var(--gold1));border:0;padding:12px 20px;border-radius:10px;font-weight:800;cursor:pointer;color:#081018;font-size:16px;box-shadow:0 8px 30px rgba(255,183,3,0.06);}
+  #timerCircle{margin:20px auto 0;display:none;align-items:center;justify-content:center;position:relative;width:180px;height:180px;}
+  #timeText{position:absolute;font-size:34px;font-weight:800;color:#fff;text-shadow:0 8px 22px rgba(0,0,0,0.6);}
+  svg{display:block}
+  @media(max-width:620px){ #question{font-size:20px;padding:18px;min-height:100px} #timeText{font-size:28px} }
 </style>
 </head>
 <body>
-  <h1>हिंदी IQ टेस्ट — Dark Premium</h1>
-  <div id="question">प्रारंभ करने के लिए नीचे क्लिक करें</div>
-  <div id="thinkingTimer"></div>
-  <div id="answer"></div>  <div id="timerCircle">
-    <svg id="svgCircle" width="170" height="170" viewBox="0 0 120 120">
-      <defs>
-        <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stop-color="#ffd18a" />
-          <stop offset="100%" stop-color="#ffb86b" />
-        </linearGradient>
-      </defs>
-      <circle cx="60" cy="60" r="54" stroke="rgba(255,215,0,0.08)" stroke-width="12" fill="none" />
-      <circle id="progress" cx="60" cy="60" r="54" stroke="url(#g)" stroke-width="12" fill="none" stroke-linecap="round" stroke-dasharray="339.292" stroke-dashoffset="339.292" transform="rotate(-90 60 60)" />
-    </svg>
-    <div id="timeText">10</div>
-  </div><button id="startBtn">Start</button>
+  <div class="wrap">
+    <div class="card" role="main" aria-live="polite">
+      <h1>हिंदी IQ टेस्ट — Continuous</h1>
+      <div id="question">Start दबाकर शुरू करें</div>
+      <div id="thinkingTimer" aria-hidden="false"></div>
+      <div id="answer" aria-live="polite"></div>
+
+      <div id="timerCircle" aria-hidden="true">
+        <svg id="svg" width="180" height="180" viewBox="0 0 120 120">
+          <defs>
+            <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#ffd18a"/>
+              <stop offset="100%" stop-color="#ffb86b"/>
+            </linearGradient>
+          </defs>
+          <circle cx="60" cy="60" r="54" stroke="rgba(255,215,0,0.08)" stroke-width="12" fill="none" />
+          <circle id="progress" cx="60" cy="60" r="54" stroke="url(#gold)" stroke-width="12" fill="none" stroke-linecap="round" stroke-dasharray="339.292" stroke-dashoffset="339.292" transform="rotate(-90 60 60)"/>
+        </svg>
+        <div id="timeText">10</div>
+      </div>
+
+      <div class="controls">
+        <button id="startBtn">Start</button>
+        <button id="soundToggle">Sound: ON</button>
+      </div>
+    </div>
+  </div>
 
 <script>
-// --- Questions list (add more or replace with generator) ---
-const qaList = [
-  {q:"अगर 2 बिल्ली 2 चूहे 2 मिनट में पकड़ती हैं, तो 100 बिल्ली 100 चूहे कितने मिनट में पकड़ेंगी?",a:"2 मिनट"},
-  {q:"एक आदमी के 3 बेटे हैं। हर बेटे की 1 बहन है। कुल कितने बच्चे हैं?",a:"4 बच्चे"},
-  {q:"अगर कल गुरुवार था, तो कल के बाद कौन सा दिन होगा?",a:"शनिवार"},
-  {q:"10, 20, 30, 40, ___?",a:"50"},
-  {q:"अगर ट्रेन 80 km/h की रफ्तार से 1 घंटे में 80 km चलती है, तो 2.5 घंटे में कितनी दूरी तय करेगी?",a:"200 km"},
-  // ... आप यहाँ 1000 प्रश्न जोड़ सकते हैं या auto-generator लगा सकते हैं
-];
-
-let index = 0;
-let thinkInterval = null;
-let ambient = null; // ambient sound controller
-let tickAudio = new Audio('https://actions.google.com/sounds/v1/alarms/clock_ticking.ogg');
-tickAudio.loop = true;
-
-// --- Ambient sound using WebAudio (no external copyrighted file) ---
-function createAmbient(ctx) {
-  // gentle two-oscillator pad with slow amplitude LFO
-  const master = ctx.createGain();
-  master.gain.value = 0.06; // very low volume
-  master.connect(ctx.destination);
-
-  const osc1 = ctx.createOscillator();
-  osc1.type = 'sine';
-  osc1.frequency.value = 220; // A3-ish
-
-  const osc2 = ctx.createOscillator();
-  osc2.type = 'sine';
-  osc2.frequency.value = 132; // lower harmonic
-
-  const lfo = ctx.createOscillator();
-  lfo.type = 'sine';
-  lfo.frequency.value = 0.25; // slow modulation
-  const lfoGain = ctx.createGain();
-  lfoGain.gain.value = 0.18;
-  lfo.connect(lfoGain);
-
-  const gain1 = ctx.createGain();
-  gain1.gain.value = 0.6;
-  const gain2 = ctx.createGain();
-  gain2.gain.value = 0.45;
-
-  lfoGain.connect(gain1.gain);
-  // combine oscillators
-  osc1.connect(gain1);
-  osc2.connect(gain2);
-  gain1.connect(master);
-  gain2.connect(master);
-
-  let running = false;
-  return {
-    start: function() {
-      if (running) return;
-      running = true;
-      if (ctx.state === 'suspended') ctx.resume();
-      osc1.start();
-      osc2.start();
-      lfo.start();
-    },
-    stop: function() {
-      if (!running) return;
-      // graceful stop with gain ramp
-      master.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.6);
-      setTimeout(()=>{
-        try{ osc1.stop(); osc2.stop(); lfo.stop(); }catch(e){}
-        running = false;
-      },700);
-    }
-  };
-}
-
-let audioCtx = null;
-function ensureAudio() {
-  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-  if (!ambient) ambient = createAmbient(audioCtx);
-}
-
-// --- Core flow ---
-function startQuiz() {
-  // user gesture ensures audio allowed on mobile
-  ensureAudio();
-  document.getElementById('startBtn').style.display = 'none';
-  showQuestion();
-}
-
-function showQuestion() {
-  // stop any timers
-  clearInterval(thinkInterval);
-  // hide progress circle
-  document.getElementById('timerCircle').style.display = 'none';
-  document.getElementById('answer').innerText = '';
-
-  if (index >= qaList.length) {
-    document.getElementById('question').innerText = 'टेस्ट पूरा हुआ! 🎉';
-    document.getElementById('thinkingTimer').innerText = '';
-    return;
+/* -------------------------
+   Auto-generator of 1000 simple level-1 questions
+   (deterministic templates so each index yields repeatable question+answer)
+   ------------------------- */
+function genQA(i){
+  const t = i % 12;
+  switch(t){
+    case 0: return {q:`अगर 2 बिल्ली 2 चूहे 2 मिनट में पकड़ती हैं, तो ${(i%50)+2} बिल्ली ${(i%50)+2} चूहे कितने मिनट में पकड़ेंगी?`, a:`2 मिनट`};
+    case 1: { const b=(i%6)+1; return {q:`एक आदमी के पास ${b} बेटे हैं। हर बेटे की 1 बहन है। कुल कितने बच्चे हैं?`, a:`${b+1} बच्चे`}; }
+    case 2: { const days=['रविवार','सोमवार','मंगलवार','बुधवार','गुरूवार','शुक्रवार','शनिवार']; const d=(i+3)%7; return {q:`अगर कल "${days[d]}" था, तो कल के बाद वाला दिन कौन सा होगा?`, a: days[(d+1)%7]}; }
+    case 3: { const s=((i%9)+1)*10; return {q:`${s}, ${s+10}, ${s+20}, ${s+30}, ___?`, a:`${s+40}`}; }
+    case 4: { const sp=(i%90)+10; return {q:`अगर ट्रेन ${sp} km/h की गति से 1 घंटे में ${sp} km चलती है, तो 2.5 घंटे में कितनी दूरी तय करेगी?`, a:`${(sp*2.5)} km`}; }
+    case 5: { return {q:`1, 4, 9, 16, 25, ___ ?`, a:`36`}; }
+    case 6: { return {q:`2, 6, 12, 20, 30, ___ ?`, a:`42`}; }
+    case 7: { return {q:`एक कमरे में 3 बल्ब और बाहर 3 स्विच हैं। आप एक बार ही अंदर जा सकते हैं। किस प्रकार पहचानेंगे कौन सा स्विच किस बल्ब का है?`, a:`एक स्विच को कुछ देर चालू रखें, फिर बंद कर दें; दूसरे को चालू रखें; अंदर जाकर गरम और जलते बल्ब से पहचान लें.`}; }
+    case 8: { return {q:`1 से 100 तक कितने नंबर में अंक "7" आता है?`, a:`20`}; } // approximate common answer
+    case 9: { return {q:`अगर CLOCK = 48 और WATCH = 60 तो MOBILE = ? (यह एक pattern पहचाने)` , a:`pattern पर depend करता है`}; }
+    case 10: { return {q:`एक आदमी दक्षिण की ओर 10 km गया, फिर पूर्व की ओर 10 km, फिर उत्तर की ओर 10 km गया — अब वह कहां होगा?`, a:`प्रारम्भिक बिंदु से 10 km पूर्व`}; }
+    default: return {q:`सरल सवाल: 2 + 2 = ?`, a:`4`};
   }
+}
 
-  document.getElementById('question').innerText = qaList[index].q;
-  // start ambient sound
-  if (ambient) ambient.start();
+/* -------------------------
+   UI and Timer Flow:
+   - showQuestion(): show q & start 30s thinking (ambient)
+   - when 30s ends -> showAnswer() (5s)
+   - after 5s -> startCircularTimer() (10s tick) -> on end -> next question (loop)
+   ------------------------- */
 
-  // thinking timer: 30 seconds with visible countdown
-  let thinkTime = 30;
-  document.getElementById('thinkingTimer').innerText = `सोचने का समय: ${thinkTime} सेकंड`;
-  thinkInterval = setInterval(() => {
-    thinkTime--;
-    document.getElementById('thinkingTimer').innerText = `सोचने का समय: ${thinkTime} सेकंड`;
-    if (thinkTime <= 0) {
-      clearInterval(thinkInterval);
-      // stop ambient and show answer
-      if (ambient) ambient.stop();
-      showAnswer();
+const total = 1000;
+let idx = 0;
+let thinkingIv = null;
+let answerTimeout = null;
+let circularIv = null;
+let soundEnabled = true;
+
+/* WebAudio ambient (soft) and tick created via Oscillator to avoid external copyrighted audio */
+let audioCtx = null;
+let ambientNodes = null;
+let tickNodes = null;
+
+function initAudio(){
+  if(audioCtx) return;
+  audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  // Ambient: two oscillators + slow gain LFO
+  ambientNodes = (function(ctx){
+    const master = ctx.createGain(); master.gain.value = 0.03; master.connect(ctx.destination); // very soft
+    const osc1 = ctx.createOscillator(); osc1.type='sine'; osc1.frequency.value = 220;
+    const osc2 = ctx.createOscillator(); osc2.type='sine'; osc2.frequency.value = 132;
+    const g1 = ctx.createGain(); g1.gain.value = 0.7;
+    const g2 = ctx.createGain(); g2.gain.value = 0.5;
+    const lfo = ctx.createOscillator(); lfo.type='sine'; lfo.frequency.value = 0.18;
+    const lfoGain = ctx.createGain(); lfoGain.gain.value = 0.2;
+    lfo.connect(lfoGain); lfoGain.connect(g1.gain);
+    osc1.connect(g1); osc2.connect(g2); g1.connect(master); g2.connect(master);
+    let started=false;
+    return {
+      start(){ if(started) return; try{ if(ctx.state==='suspended') ctx.resume(); osc1.start(); osc2.start(); lfo.start(); started=true; }catch(e){} },
+      stop(){ try{ master.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime+0.6); }catch(e){} }
+    };
+  })(audioCtx);
+
+  // Tick generator: short click per second (for circular 10s)
+  tickNodes = (function(ctx){
+    const master = ctx.createGain(); master.gain.value = 0.06; master.connect(ctx.destination);
+    let osc=null;
+    function clickOnce(){
+      const o = ctx.createOscillator(); const g = ctx.createGain();
+      o.type='square'; o.frequency.value = 800; g.gain.value=0.0001;
+      o.connect(g); g.connect(master);
+      // short envelope
+      g.gain.setValueAtTime(0.0001, ctx.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.06, ctx.currentTime + 0.002);
+      g.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.06);
+      o.start(); o.stop(ctx.currentTime + 0.07);
     }
-  }, 1000);
+    return {click: clickOnce, setVolume(v){ master.gain.value = v; }};
+  })(audioCtx);
 }
 
-function showAnswer() {
-  document.getElementById('thinkingTimer').innerText = '';
-  document.getElementById('answer').innerHTML = `<strong>आपका जवाब ये रहा:</strong> ${qaList[index].a}`;
-  const utter = new SpeechSynthesisUtterance(`आपका जवाब ये रहा: ${qaList[index].a}`);
-  utter.lang = 'hi-IN';
-  speechSynthesis.speak(utter);
+/* UI elements */
+const qEl = document.getElementById('question');
+const thinkEl = document.getElementById('thinkingTimer');
+const ansEl = document.getElementById('answer');
+const startBtn = document.getElementById('startBtn');
+const soundToggle = document.getElementById('soundToggle');
+const timerCircle = document.getElementById('timerCircle');
+const progress = document.getElementById('progress');
+const timeText = document.getElementById('timeText');
 
-  // wait 5 seconds while answer is visible
-  setTimeout(() => {
-    // start circular 10s timer with tick sound
-    startCircularTimer();
-  }, 5000);
-}
+/* show next question (main loop entry) */
+function showQuestion(){
+  // clear any previous timers
+  clearInterval(thinkingIv); clearTimeout(answerTimeout); clearInterval(circularIv);
+  timerCircle.style.display = 'none';
+  ansEl.innerText = '';
+  thinkEl.innerText = '';
 
-function startCircularTimer() {
-  const progress = document.getElementById('progress');
-  const timeText = document.getElementById('timeText');
-  const timerDiv = document.getElementById('timerCircle');
-  timerDiv.style.display = 'flex';
+  // fetch QA (generate)
+  const qa = genQA(idx % total);
+  qEl.innerText = qa.q;
 
-  // animate SVG stroke-dashoffset from full to 0 over 10s
-  const circumference = 2 * Math.PI * 54; // r=54
-  progress.style.transition = 'none';
-  progress.style.strokeDasharray = `${circumference}`;
-  progress.style.strokeDashoffset = `${circumference}`;
-
-  // small delay to allow paint
-  setTimeout(()=>{
-    progress.style.transition = 'stroke-dashoffset 10s linear';
-    progress.style.strokeDashoffset = '0';
-  },10);
-
-  // tick sound
-  try { tickAudio.currentTime = 0; tickAudio.play(); } catch(e){}
-
-  let t = 10;
-  timeText.textContent = t;
-  const iv = setInterval(()=>{
+  // start ambient
+  if(soundEnabled){ initAudio(); try{ ambientNodes.start(); }catch(e){} }
+  // 30s thinking countdown
+  let t = 30;
+  thinkEl.innerText = `सोचने का समय: ${t} सेकंड`;
+  thinkingIv = setInterval(()=>{
     t--;
-    timeText.textContent = t;
-    if (t <= 0) {
-      clearInterval(iv);
-      try{ tickAudio.pause(); }catch(e){}
-      timerDiv.style.display = 'none';
-      // reset progress instantly for next time
-      progress.style.transition = 'none';
-      const circumference = 2 * Math.PI * 54;
-      progress.style.strokeDashoffset = `${circumference}`;
-
-      index++;
-      showQuestion();
+    thinkEl.innerText = `सोचने का समय: ${t} सेकंड`;
+    if(t <= 0){
+      clearInterval(thinkingIv);
+      // stop ambient gently
+      try{ if(ambientNodes) ambientNodes.stop(); }catch(e){}
+      showAnswer();
     }
   },1000);
 }
 
-// start button
-document.getElementById('startBtn').addEventListener('click', startQuiz);
-</script></body>
+/* show answer for 5s */
+function showAnswer(){
+  thinkEl.innerText = '';
+  const qa = genQA(idx % total);
+  ansEl.innerHTML = `<strong>आपका जवाब ये रहा:</strong> ${qa.a}`;
+  // speak answer (hi-IN)
+  try{ const u = new SpeechSynthesisUtterance(`आपका जवाब ये रहा: ${qa.a}`); u.lang='hi-IN'; speechSynthesis.speak(u); }catch(e){}
+  // wait 5s then start circular timer
+  answerTimeout = setTimeout(()=>{
+    startCircularTimer();
+  }, 5000);
+}
+
+/* 10s circular timer with tick sound and SVG animation */
+function startCircularTimer(){
+  timerCircle.style.display = 'flex';
+  // reset stroke
+  const r = 54;
+  const circumference = 2 * Math.PI * r;
+  progress.style.transition = 'none';
+  progress.style.strokeDasharray = `${circumference}`;
+  progress.style.strokeDashoffset = `${circumference}`;
+  // small paint delay then animate
+  setTimeout(()=>{ progress.style.transition = 'stroke-dashoffset 10s linear'; progress.style.strokeDashoffset = '0'; }, 30);
+
+  // ticks each second (gentle)
+  let t = 10;
+  timeText.innerText = t;
+  if(soundEnabled){ initAudio(); tickNodes.setVolume?.(0.03); /* optional */ ticPlay(0); } // immediate tick optional
+
+  circularIv = setInterval(()=>{
+    t--;
+    timeText.innerText = t;
+    if(soundEnabled) tickNodes.click();
+    if(t <= 0){
+      clearInterval(circularIv);
+      timerCircle.style.display = 'none';
+      idx = (idx + 1) % total; // move to next (loops forever)
+      // small short delay to ensure transitions complete then next q
+      setTimeout(()=>{ showQuestion(); }, 120);
+    }
+  }, 1000);
+}
+
+/* small helper to trigger immediate soft tick once (optional) */
+function ticPlay(delay){
+  setTimeout(()=>{ if(soundEnabled) tickNodes.click(); }, delay||0);
+}
+
+/* Start button handler (user gesture to unlock audio) */
+startBtn.addEventListener('click', ()=>{
+  initAudio();
+  // resume audio context if suspended
+  if(audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+  startBtn.style.display = 'none';
+  showQuestion();
+});
+
+/* Sound toggle */
+soundToggle.addEventListener('click', ()=>{
+  soundEnabled = !soundEnabled;
+  soundToggle.innerText = `Sound: ${soundEnabled ? 'ON' : 'OFF'}`;
+});
+
+/* Clean-up on visibility change to avoid background timers */
+document.addEventListener('visibilitychange', ()=>{
+  if(document.hidden){
+    clearInterval(thinkingIv); clearInterval(circularIv); clearTimeout(answerTimeout);
+    try{ if(ambientNodes) ambientNodes.stop(); }catch(e){}
+  } else {
+    // resume loop at current index
+    // showQuestion will restart timers safely
+    showQuestion();
+  }
+});
+</script>
+</body>
 </html>
